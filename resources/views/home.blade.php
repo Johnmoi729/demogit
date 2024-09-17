@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,70 +8,78 @@
     @vite('resources/css/app.css')
 </head>
 <style>
-        .auth-button {
-            border: 2px solid #ff66b2; /* Màu hồng cho khung */
-            background-color: white;
-            color: #ff66b2;
-            padding: 10px 20px;
-            border-radius: 5px;
-            text-decoration: none;
-            font-weight: bold;
-            transition: background-color 0.3s, color 0.3s;
-            white-space: nowrap; /* Đảm bảo chữ không bị ngắt dòng */
-        }
+    .auth-button {
+        border: 2px solid #ff66b2;
+        /* Màu hồng cho khung */
+        background-color: white;
+        color: #ff66b2;
+        padding: 10px 20px;
+        border-radius: 5px;
+        text-decoration: none;
+        font-weight: bold;
+        transition: background-color 0.3s, color 0.3s;
+        white-space: nowrap;
+        /* Đảm bảo chữ không bị ngắt dòng */
+    }
 
-        .auth-button:hover {
-            background-color: #ff66b2;
-            color: white;
-        }
+    .auth-button:hover {
+        background-color: #ff66b2;
+        color: white;
+    }
 
-        .auth-buttons {
-            display: inline-flex; /* Đảm bảo các nút nằm trên một dòng */
-            gap: 10px; /* Khoảng cách giữa các nút */
-            justify-content: flex-end;
-            align-items: center;
-        }
+    .auth-buttons {
+        display: inline-flex;
+        /* Đảm bảo các nút nằm trên một dòng */
+        gap: 10px;
+        /* Khoảng cách giữa các nút */
+        justify-content: flex-end;
+        align-items: center;
+    }
 
-        .top-bar {
-            display: flex;
-            justify-content: space-between; /* Giãn cách logo và các nút đăng nhập/đăng ký */
-            align-items: center;
-            padding: 10px;
-        }
+    .top-bar {
+        display: flex;
+        justify-content: space-between;
+        /* Giãn cách logo và các nút đăng nhập/đăng ký */
+        align-items: center;
+        padding: 10px;
+    }
 
-        .logo {
-            max-height: 50px; /* Điều chỉnh chiều cao của logo */
-            width: auto; /* Giữ tỉ lệ của logo */
-        }
-    </style>
+    .logo {
+        max-height: 50px;
+        /* Điều chỉnh chiều cao của logo */
+        width: auto;
+        /* Giữ tỉ lệ của logo */
+    }
+</style>
+
 <body>
 
     <header>
-    <div class="top-bar">
-    <a href="{{ url('/') }}">
-            <img src="{{ asset('images/logo.jpg') }}" alt="Logo" class="logo">
-        </a>
-    <div class="search-bar">
-        <input type="text" placeholder="Tìm kiếm xe...">
-        <button type="submit">Tìm kiếm</button>
-    </div>
-    <div class="auth-buttons">
-        @guest
-            <a href="{{ route('login') }}" class="auth-button">Đăng nhập</a>
-            <a href="{{ route('register') }}" class="auth-button">Đăng ký</a>
-        @endguest
-        @auth
-            <a href="#" class="auth-button">Tài khoản</a>
-            <a href="{{ route('logout') }}" class="auth-button"
-               onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                Đăng xuất
+        <div class="top-bar">
+            <a href="{{ url('/') }}">
+                <img src="{{ asset('images/logo.jpg') }}" alt="Logo" class="logo">
             </a>
-            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                @csrf
-            </form>
-        @endauth
-    </div>
-</div>
+            <div class="search-bar">
+                <input type="text" placeholder="Tìm kiếm xe...">
+                <button type="submit">Tìm kiếm</button>
+            </div>
+            <div class="auth-buttons">
+                @guest
+                    <a href="{{ route('login') }}" class="auth-button">Đăng nhập</a>
+                    <a href="{{ route('register') }}" class="auth-button">Đăng ký</a>
+                @endguest
+                @auth
+                    <a href="#" class="auth-button">Tài khoản</a>
+                    <a href="{{ route('logout') }}" class="auth-button"
+                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                        Đăng xuất
+                    </a>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        @csrf
+                    </form>
+                @endauth
+            </div>
+        </div>
 
 
         <nav class="main-menu">
@@ -83,16 +92,16 @@
 
             </ul>
 
-<!-- Nút Đăng Tin -->
-@auth
-    <!-- Nếu đã đăng nhập, chuyển đến trang tạo bài đăng -->
-    <a href="{{ route('posts.create') }}" class="post-button">Đăng tin</a>
-@endauth
+            <!-- Nút Đăng Tin -->
+            @auth
+                <!-- Nếu đã đăng nhập, chuyển đến trang tạo bài đăng -->
+                <a href="{{ route('posts.create') }}" class="post-button">Đăng tin</a>
+            @endauth
 
-@guest
-    <!-- Nếu chưa đăng nhập, chuyển đến trang đăng nhập -->
-    <a href="{{ route('login') }}" class="post-button">Đăng tin</a>
-@endguest
+            @guest
+                <!-- Nếu chưa đăng nhập, chuyển đến trang đăng nhập -->
+                <a href="{{ route('login') }}" class="post-button">Đăng tin</a>
+            @endguest
 
         </nav>
 
@@ -146,7 +155,7 @@
                     'Toyota Fortuner',
                     'Mazda CX-5',
                     'Ford Ranger',
-                    'Chevrolet Camaro'
+                    'Chevrolet Camaro',
                 ];
             @endphp
 
@@ -155,7 +164,9 @@
                     <img src="{{ asset('images/c' . $i . '.jpg') }}" alt="{{ $carNames[$i - 1] }}">
                     <h3>{{ $carNames[$i - 1] }}</h3>
                     <p>Giá: {{ number_format(rand(500000000, 800000000)) }} VND</p>
-                    <button class="view-more-button">Xem thêm</button>
+                    <a href="{{ url('/payment') }}">
+                        <button class="view-more-button">Xem thêm</button>
+                    </a>
                 </div>
             @endfor
         </section>
@@ -172,7 +183,8 @@
         <div class="footer-container">
             <div class="footer-section">
                 <h3>Về Chúng Tôi</h3>
-                <p>Bán Xe Ô Tô Cũ là nơi đáng tin cậy để tìm mua và bán xe ô tô cũ. Chúng tôi luôn cam kết mang đến cho khách hàng những chiếc xe chất lượng tốt nhất với giá cả hợp lý.</p>
+                <p>Bán Xe Ô Tô Cũ là nơi đáng tin cậy để tìm mua và bán xe ô tô cũ. Chúng tôi luôn cam kết mang đến cho
+                    khách hàng những chiếc xe chất lượng tốt nhất với giá cả hợp lý.</p>
             </div>
 
             <div class="footer-section">
@@ -212,4 +224,5 @@
     </footer>
 
 </body>
+
 </html>

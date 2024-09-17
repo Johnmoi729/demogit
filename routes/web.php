@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\PaymentController;
 
 // Trang chủ
 Route::get('/', function () {
@@ -45,3 +46,6 @@ Route::post('/posts', [PostController::class, 'store'])->name('posts.store');
 Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
 
 
+// Thanh toán bằng stripe
+Route::get('/payment', [PaymentController::class, 'showPaymentForm']);
+Route::post('/payment', [PaymentController::class, 'create']);
