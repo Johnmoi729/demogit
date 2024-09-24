@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bán Xe Ô Tô Cũ</title>
-    @vite('resources/css/app.css')
+    <?php echo app('Illuminate\Foundation\Vite')('resources/css/app.css'); ?>
 </head>
 <style>
     .auth-button {
@@ -189,42 +189,42 @@
 
     <header>
         <div class="top-bar">
-            <a href="{{ url('/') }}">
-                <img src="{{ asset('images/logo.jpg') }}" alt="Logo" class="logo">
+            <a href="<?php echo e(url('/')); ?>">
+                <img src="<?php echo e(asset('images/logo.jpg')); ?>" alt="Logo" class="logo">
             </a>
 
             <div class="auth-buttons">
                 <div class="search-bar">
-                    <form action="{{ route('search') }}" method="GET">
+                    <form action="<?php echo e(route('search')); ?>" method="GET">
                         <input type="text" name="query" placeholder="Tìm kiếm xe...">
                         <button type="submit">Tìm kiếm</button>
                     </form>
                 </div>
-                @guest
-                    <a href="{{ route('login') }}" class="auth-button">Đăng nhập</a>
-                    <a href="{{ route('register') }}" class="auth-button">Đăng ký</a>
-                @endguest
-                @auth
+                <?php if(auth()->guard()->guest()): ?>
+                    <a href="<?php echo e(route('login')); ?>" class="auth-button">Đăng nhập</a>
+                    <a href="<?php echo e(route('register')); ?>" class="auth-button">Đăng ký</a>
+                <?php endif; ?>
+                <?php if(auth()->guard()->check()): ?>
                     <div class="dropdown">
                         <a href="#" class="auth-button dropdown-toggle">Tài khoản</a>
                         <div class="dropdown-menu">
-                            <a href="{{ route('contact.index') }}">Tổng quan</a>
+                            <a href="<?php echo e(route('contact.index')); ?>">Tổng quan</a>
                             <a href="#">Quản lý tin đăng</a>
                             <a href="#">Gói hội viên</a>
                             <a href="#">Quản lý tin tài trợ</a>
                             <a href="#">Thay đổi thông tin cá nhân</a>
                             <a href="#">Thay đổi mật khẩu</a>
                             <a href="#">Nạp tiền</a>
-                            <a href="{{ route('logout') }}"
+                            <a href="<?php echo e(route('logout')); ?>"
                                 onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                 Đăng xuất
                             </a>
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                @csrf
+                            <form id="logout-form" action="<?php echo e(route('logout')); ?>" method="POST" style="display: none;">
+                                <?php echo csrf_field(); ?>
                             </form>
                         </div>
                     </div>
-                @endauth
+                <?php endif; ?>
             </div>
 
 
@@ -233,21 +233,21 @@
 
         <nav class="main-menu">
             <ul>
-                <li><a href="{{ route('cars.index') }}">Xe cũ</a></li>
-                <li><a href="{{ route('news.index') }}">Tin tức</a></li>
-                <li><a href="{{ route('posts.index') }}">Bài đăng</a></li>
+                <li><a href="<?php echo e(route('cars.index')); ?>">Xe cũ</a></li>
+                <li><a href="<?php echo e(route('news.index')); ?>">Tin tức</a></li>
+                <li><a href="<?php echo e(route('posts.index')); ?>">Bài đăng</a></li>
             </ul>
 
             <!-- Nút Đăng Tin -->
-            @auth
+            <?php if(auth()->guard()->check()): ?>
                 <!-- Nếu đã đăng nhập, chuyển đến trang tạo bài đăng -->
-                <a href="{{ route('posts.create') }}" class="post-button">Đăng tin</a>
-            @endauth
+                <a href="<?php echo e(route('posts.create')); ?>" class="post-button">Đăng tin</a>
+            <?php endif; ?>
 
-            @guest
+            <?php if(auth()->guard()->guest()): ?>
                 <!-- Nếu chưa đăng nhập, chuyển đến trang đăng nhập -->
-                <a href="{{ route('login') }}" class="post-button">Đăng tin</a>
-            @endguest
+                <a href="<?php echo e(route('login')); ?>" class="post-button">Đăng tin</a>
+            <?php endif; ?>
 
         </nav>
     </header>
@@ -255,10 +255,10 @@
     <main>
         <section class="banner">
             <div class="banner-img">
-                <img src="{{ asset('images/d111.jpg') }}" alt="Banner 1">
+                <img src="<?php echo e(asset('images/d111.jpg')); ?>" alt="Banner 1">
             </div>
             <div class="banner-img">
-                <img src="{{ asset('images/d222.jpg') }}" alt="Banner 2">
+                <img src="<?php echo e(asset('images/d222.jpg')); ?>" alt="Banner 2">
             </div>
         </section>
 
@@ -283,25 +283,25 @@
 
         <h1>THƯƠNG HIỆU</h1>
         <section class="image-scroll">
-            @for ($i = 1; $i <= 10; $i++)
+            <?php for($i = 1; $i <= 10; $i++): ?>
                 <div class="scroll-item">
-                    <img src="{{ asset('images/b' . $i . '.jpg') }}" alt="Image {{ $i }}">
+                    <img src="<?php echo e(asset('images/b' . $i . '.jpg')); ?>" alt="Image <?php echo e($i); ?>">
                 </div>
-            @endfor
+            <?php endfor; ?>
         </section>
 
         <h1>XE ĐÃ QUA SỬ DỤNG</h1>
         <section class="car-scroll">
             <div class="car-scroll-container">
-                @foreach ($cars as $car)
+                <?php $__currentLoopData = $cars; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $car): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                     <div class="car-item">
-                        <img src="{{ asset($car->image) }}" alt="{{ $car->make }} {{ $car->model }}">
-                        <h3>{{ $car->make }} {{ $car->model }}</h3>
-                        <p>Giá: {{ number_format($car->price, 0, ',', '.') }} VND</p>
-                        <a href="{{ route('posts.byCar', ['car_id' => $car->id]) }}" class="view-more-button">Xem
+                        <img src="<?php echo e(asset($car->image)); ?>" alt="<?php echo e($car->make); ?> <?php echo e($car->model); ?>">
+                        <h3><?php echo e($car->make); ?> <?php echo e($car->model); ?></h3>
+                        <p>Giá: <?php echo e(number_format($car->price, 0, ',', '.')); ?> VND</p>
+                        <a href="<?php echo e(route('posts.byCar', ['car_id' => $car->id])); ?>" class="view-more-button">Xem
                             thêm</a>
                     </div>
-                @endforeach
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             </div>
         </section>
 
@@ -309,7 +309,7 @@
 
         <div class="button-container">
             <!-- Sử dụng route nếu có -->
-            <a href="{{ route('cars.index') }}">
+            <a href="<?php echo e(route('cars.index')); ?>">
                 <button class="view-all-button">XEM TẤT CẢ</button>
             </a>
         </div>
@@ -334,22 +334,22 @@
             <div class="footer-section">
                 <h3>Liên Kết Nhanh</h3>
                 <ul>
-                    <li><a href="{{ url('/') }}">Trang chủ</a></li>
+                    <li><a href="<?php echo e(url('/')); ?>">Trang chủ</a></li>
                     <li><a href="#">Xe cũ</a></li>
                     <li><a href="#}">Giá xe</a></li>
                     <li><a href="#">Tin tức</a></li>
-                    <li><a href="{{ route('login') }}" class="footer-section">Đăng nhập</a></li>
-                    <li><a href="{{ url('map') }}" class="footer-section">Vị trí hiện tại</a></li>
+                    <li><a href="<?php echo e(route('login')); ?>" class="footer-section">Đăng nhập</a></li>
+                    <li><a href="<?php echo e(url('map')); ?>" class="footer-section">Vị trí hiện tại</a></li>
                 </ul>
             </div>
 
             <div class="footer-section">
                 <h3>Theo Dõi Chúng Tôi</h3>
                 <div class="social-icons">
-                    <a href="#"><img src="{{ asset('images/ff.jpg') }}" alt="Facebook"></a>
-                    <a href="#"><img src="{{ asset('images/ii.jpg') }}" alt="Twitter"></a>
-                    <a href="#"><img src="{{ asset('images/pp.jpg') }}" alt="Instagram"></a>
-                    <a href="#"><img src="{{ asset('images/youtube-icon.png') }}" alt="YouTube"></a>
+                    <a href="#"><img src="<?php echo e(asset('images/ff.jpg')); ?>" alt="Facebook"></a>
+                    <a href="#"><img src="<?php echo e(asset('images/ii.jpg')); ?>" alt="Twitter"></a>
+                    <a href="#"><img src="<?php echo e(asset('images/pp.jpg')); ?>" alt="Instagram"></a>
+                    <a href="#"><img src="<?php echo e(asset('images/youtube-icon.png')); ?>" alt="YouTube"></a>
                 </div>
             </div>
         </div>
@@ -362,3 +362,4 @@
 </body>
 
 </html>
+<?php /**PATH E:\P1\XAMPP\htdocs\demogit-master\resources\views/home.blade.php ENDPATH**/ ?>

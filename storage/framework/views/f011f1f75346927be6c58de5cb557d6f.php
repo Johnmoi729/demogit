@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'Bán Xe Ô Tô Cũ')</title>
+    <title><?php echo $__env->yieldContent('title', 'Bán Xe Ô Tô Cũ'); ?></title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    @vite('resources/css/app.css')
+    <?php echo app('Illuminate\Foundation\Vite')('resources/css/app.css'); ?>
     <style>
         .auth-button {
             border: 2px solid #228dff; /* Màu hồng cho khung */
@@ -91,42 +91,42 @@
 
     <header>
     <div class="top-bar">
-        <a href="{{ url('/') }}">
-            <img src="{{ asset('images/logo.jpg') }}" alt="Logo" class="logo">
+        <a href="<?php echo e(url('/')); ?>">
+            <img src="<?php echo e(asset('images/logo.jpg')); ?>" alt="Logo" class="logo">
         </a>
             
         <div class="auth-buttons">
-    @guest
-        <a href="{{ route('login') }}" class="auth-button">Đăng nhập</a>
-        <a href="{{ route('register') }}" class="auth-button">Đăng ký</a>
-    @endguest
-    @auth
+    <?php if(auth()->guard()->guest()): ?>
+        <a href="<?php echo e(route('login')); ?>" class="auth-button">Đăng nhập</a>
+        <a href="<?php echo e(route('register')); ?>" class="auth-button">Đăng ký</a>
+    <?php endif; ?>
+    <?php if(auth()->guard()->check()): ?>
     <div class="dropdown">
         <a href="#" class="auth-button dropdown-toggle">Tài khoản</a>
         <div class="dropdown-menu">
-            <a href="{{ route('contact.index') }}">Tổng quan</a>
+            <a href="<?php echo e(route('contact.index')); ?>">Tổng quan</a>
             <a href="#">Quản lý tin đăng</a>
             <a href="#">Gói hội viên</a>
             <a href="#">Quản lý tin tài trợ</a>
             <a href="#">Thay đổi thông tin cá nhân</a>
             <a href="#">Thay đổi mật khẩu</a>
             <a href="#">Nạp tiền</a>
-            <a href="{{ route('logout') }}" 
+            <a href="<?php echo e(route('logout')); ?>" 
                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                 Đăng xuất
             </a>
-            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                @csrf
+            <form id="logout-form" action="<?php echo e(route('logout')); ?>" method="POST" style="display: none;">
+                <?php echo csrf_field(); ?>
             </form>
         </div>
     </div>
-    @endauth
+    <?php endif; ?>
 </div>
     </div>
     </header>
 
     <main>
-        @yield('content')
+        <?php echo $__env->yieldContent('content'); ?>
     </main>
 
     <footer>
@@ -146,21 +146,21 @@
             <div class="footer-section">
                 <h3>Liên Kết Nhanh</h3>
                 <ul>
-                    <li><a href="{{ url('/') }}">Trang chủ</a></li>
+                    <li><a href="<?php echo e(url('/')); ?>">Trang chủ</a></li>
                     
-    <li><a href="{{ route('cars.index') }}">Xe cũ</a></li>
-    <li><a href="{{ route('news.index') }}">Tin tức</a></li>
-    <li><a href="{{ route('posts.index') }}">Bài đăng</a></li>
+    <li><a href="<?php echo e(route('cars.index')); ?>">Xe cũ</a></li>
+    <li><a href="<?php echo e(route('news.index')); ?>">Tin tức</a></li>
+    <li><a href="<?php echo e(route('posts.index')); ?>">Bài đăng</a></li>
 
                 </ul>
             </div>
             <div class="footer-section">
                 <h3>Theo Dõi Chúng Tôi</h3>
                 <div class="social-icons">
-                    <a href="#"><img src="{{ asset('images/ff.jpg') }}" alt="Facebook"></a>
-                    <a href="#"><img src="{{ asset('images/ii.jpg') }}" alt="Twitter"></a>
-                    <a href="#"><img src="{{ asset('images/pp.jpg') }}" alt="Instagram"></a>
-                    <a href="#"><img src="{{ asset('images/youtube-icon.png') }}" alt="YouTube"></a>
+                    <a href="#"><img src="<?php echo e(asset('images/ff.jpg')); ?>" alt="Facebook"></a>
+                    <a href="#"><img src="<?php echo e(asset('images/ii.jpg')); ?>" alt="Twitter"></a>
+                    <a href="#"><img src="<?php echo e(asset('images/pp.jpg')); ?>" alt="Instagram"></a>
+                    <a href="#"><img src="<?php echo e(asset('images/youtube-icon.png')); ?>" alt="YouTube"></a>
                 </div>
             </div>
         </div>
@@ -172,3 +172,4 @@
 
 </body>
 </html>
+<?php /**PATH E:\P1\XAMPP\htdocs\demogit-master\resources\views/layouts/app.blade.php ENDPATH**/ ?>
